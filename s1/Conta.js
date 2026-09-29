@@ -16,6 +16,10 @@ export class Conta {
     return this.#titular;
   }
 
+  saldoDisponivel(){
+    return this.#saldo;
+  }
+
   // setter: escrita liberada, mas com regra
   set titular(nome) {
     if (typeof nome !== 'string' || nome.trim().length < 3) {
@@ -31,7 +35,7 @@ export class Conta {
 
   sacar(valor) {
     if (!(valor > 0)) throw new Error('Saque deve ser positivo');
-    if (valor > this.#saldo) throw new Error('Saldo insuficiente');
+    if (valor > this.saldoDisponivel()) throw new Error('Saldo insuficiente'); // ← mudou
     this.#saldo -= valor;
   }
 }
