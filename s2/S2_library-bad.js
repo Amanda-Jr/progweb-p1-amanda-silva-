@@ -84,7 +84,7 @@ class Library {
 }
 
 // Uso:    // SMELL: Comentário-desodorante
-const lib = new Library();
+const lib = new Library(); // VIOLA: <|S|>. Mais de um motivo para mudar a classe
 lib.registerUser('Ana', 'ana@uepb.edu.br', '83999990000', 'Rua X, 10', 'Patos', 'PB', '58700-000', false);
 lib.doStuff({ t: 'Clean Code', cp: 3 }, null, 'add');
 lib.doStuff({ t: 'Clean Code' }, 1, 'lend');
