@@ -21,6 +21,15 @@ function celula(texto, classe = '') {
   return td;
 }
 
+function celulaCategoria(nome) {
+  const td = document.createElement('td');
+  const badge = document.createElement('span');
+  badge.className = 'badge rounded-pill badge-categoria';
+  badge.textContent = nome; // continua entrando como TEXTO, nunca como HTML
+  td.append(badge);
+  return td;
+}
+
 function botao(texto, acao, id, classe) {
   const b = document.createElement('button');
   b.type = 'button';
@@ -44,7 +53,7 @@ function linha(receita, editandoId, nomesCategorias) {
   tr.append(
     celula(receita.id),
     celula(receita.titulo),
-    celula(nomesCategorias.get(receita.categoriaId) ?? `#${receita.categoriaId}`),
+    celulaCategoria(nomesCategorias.get(receita.categoriaId) ?? `#${receita.categoriaId}`),
     celula(`${receita.tempoPreparoMin} min`, 'text-nowrap'),
     celula(receita.porcoes),
     acoes,

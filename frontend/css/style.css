@@ -9,3 +9,88 @@ tr.editando > td {
 .numero {
   font-variant-numeric: tabular-nums;
 }
+
+/* ===== Paleta: caderno de receitas ===== */
+:root {
+  --bs-primary: #c8553d;           /* terracota */
+  --bs-primary-rgb: 200, 85, 61;
+  --bs-body-font-family: 'Nunito', system-ui, sans-serif;
+  --bs-body-color: #3b2f2a;
+  --bs-tertiary-bg: #fdf6ec;       /* fundo creme */
+  --bs-tertiary-bg-rgb: 253, 246, 236;
+}
+
+/* Títulos com fonte serifada */
+h1, h2, .h2, .h3, .h5 {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* Header com degradê quente */
+header.bg-primary {
+  background-image: linear-gradient(135deg, #c8553d 0%, #e08a3c 100%);
+  border-bottom: 4px solid #8f3826;
+}
+
+/* Botões nas cores da paleta */
+.btn-primary {
+  --bs-btn-bg: #c8553d;
+  --bs-btn-border-color: #c8553d;
+  --bs-btn-hover-bg: #a8432e;
+  --bs-btn-hover-border-color: #a8432e;
+  --bs-btn-active-bg: #8f3826;
+  --bs-btn-active-border-color: #8f3826;
+  --bs-btn-disabled-bg: #c8553d;
+  --bs-btn-disabled-border-color: #c8553d;
+}
+.btn-outline-primary {
+  --bs-btn-color: #c8553d;
+  --bs-btn-border-color: #c8553d;
+  --bs-btn-hover-bg: #c8553d;
+  --bs-btn-hover-border-color: #c8553d;
+  --bs-btn-active-bg: #a8432e;
+  --bs-btn-active-border-color: #a8432e;
+}
+
+/* Cards mais suaves, estilo ficha de receita */
+.card {
+  border: 1px solid #ecdcc8;
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: #fffdf9;
+}
+.card-header {
+  background-color: #f8ead7;
+  border-bottom: 2px dashed #e3cba8;
+}
+
+/* Tabela */
+.table {
+  --bs-table-bg: transparent;
+  --bs-table-hover-bg: #fbeedd;
+}
+.table thead th {
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #8a6f5c;
+  border-bottom-color: #e3cba8;
+}
+
+/* Campos de formulário com foco na cor da paleta */
+.form-control:focus,
+.form-select:focus {
+  border-color: #c8553d;
+  box-shadow: 0 0 0 0.25rem rgba(200, 85, 61, 0.2);
+}
+
+/* Linha em edição */
+tr.editando > td {
+  background-color: #fff3c4;
+}
+
+/* Badge de categoria (usado no passo 3) */
+.badge-categoria {
+  background-color: #f3d9a4;
+  color: #6b4a14;
+  font-weight: 600;
+}
