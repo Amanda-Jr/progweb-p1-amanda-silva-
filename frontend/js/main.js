@@ -1,7 +1,9 @@
 // Ponto de entrada: liga store, service e view. Nenhuma regra mora aqui.
 import { criarStore } from './state/store.js';
 import { categoriaService } from './services/categoriaService.js';
+import { receitaService } from './services/receitaService.js';
 import { categoriaView } from './ui/categoriaView.js';
+import { receitaView } from './ui/receitaView.js';
 import { aviso } from './ui/aviso.js';
 
 // ===================== CATEGORIAS =====================

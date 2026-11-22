@@ -1,43 +1,64 @@
-// "Banco de dados" em memória: um array. Na S5 vira SQLite.
-let receitas = [];
-let proximoId = 1;
+import { db } from '../db.js';
+
+// No banco: snake_case (modo_preparo, categoria_id). No JSON da API: camelCase.
+// O AS traduz aqui, na única camada que conhece o banco.
+const COLUNAS = `id, titulo, modo_preparo AS modoPreparo,
+  tempo_preparo_min AS tempoPreparoMin, porcoes,
+  categoria_id AS categoriaId`;
 
 export const receitaModel = {
   listar() {
-    return receitas;
+    return db.prepare(`SELECT ${COLUNAS} FROM receitas ORDER BY id`).all();
   },
 
   listarPorCategoria(categoriaId) {
-    return receitas.filter((r) => r.categoriaId === categoriaId);
+    return db
+      .prepare(`SELECT ${COLUNAS} FROM receitas WHERE categoria_id = ? ORDER BY id`)
+      .all(categoriaId);
   },
 
   buscarPorId(id) {
-    return receitas.find((r) => r.id === id) ?? null;
+    return db
+      .prepare(`SELECT ${COLUNAS} FROM receitas WHERE id = ?`)
+      .get(id) ?? null;
   },
 
   inserir({ titulo, modoPreparo, tempoPreparoMin, porcoes, categoriaId }) {
-    const nova = {
-      id: proximoId++,
-      titulo: titulo.trim(),
-      modoPreparo: modoPreparo.trim(),
-      tempoPreparoMin,
-      porcoes,
-      categoriaId,
-    };
-    receitas.push(nova);
-    return nova;
+    const r = db
+      .prepare(`INSERT INTO receitas
+                  (titulo, modo_preparo, tempo_preparo_min, porcoes, categoria_id)
+                VALUES (?, ?, ?, ?, ?)`)
+      .run(
+        titulo.trim(),
+        modoPreparo.trim(),
+        Number(tempoPreparoMin),
+        Number(porcoes),
+        Number(categoriaId),
+      );
+    return this.buscarPorId(Number(r.lastInsertRowid));
   },
 
   atualizar(id, dados) {
-    const i = receitas.findIndex((r) => r.id === id);
-    if (i === -1) return null;
-    receitas[i] = { ...receitas[i], ...dados, id }; // o id nunca muda
-    return receitas[i];
+    const atual = this.buscarPorId(id);
+    if (!atual) return null;
+    const novo = { ...atual, ...dados };
+    db.prepare(`UPDATE receitas
+                SET titulo = ?, modo_preparo = ?, tempo_preparo_min = ?,
+                    porcoes = ?, categoria_id = ?
+                WHERE id = ?`)
+      .run(
+        novo.titulo,
+        novo.modoPreparo,
+        Number(novo.tempoPreparoMin),
+        Number(novo.porcoes),
+        Number(novo.categoriaId),
+        id, // o id nunca muda
+      );
+    return this.buscarPorId(id);
   },
 
   remover(id) {
-    const antes = receitas.length;
-    receitas = receitas.filter((r) => r.id !== id);
-    return receitas.length < antes; // true = removeu
+    const r = db.prepare('DELETE FROM receitas WHERE id = ?').run(id);
+    return r.changes > 0; // true = removeu
   },
 };
