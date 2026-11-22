@@ -1,46 +1,45 @@
-// "Banco de dados" em memória: um array. Na S5 vira SQLite.
-let categorias = [];
-let proximoId = 1;
+import { db } from '../db.js';
 
-// Compara nomes sem diferenciar maiúsculas de minúsculas nem espaços nas pontas
-const normalizar = (texto) => texto.trim().toLowerCase();
-
+// Mesmo contrato da S3 (listar, buscarPorId, existeNome, inserir,
+// atualizar, remover). Só o "como" mudou: o array virou tabela.
 export const categoriaModel = {
   listar() {
-    return categorias;
+    return db.prepare('SELECT * FROM categorias ORDER BY id').all();
   },
 
   buscarPorId(id) {
-    return categorias.find((c) => c.id === id) ?? null;
+    return db.prepare('SELECT * FROM categorias WHERE id = ?').get(id) ?? null;
   },
 
-  // ignorarId permite atualizar uma categoria sem conflitar com ela mesma
+  // ignorarId permite atualizar uma categoria sem conflitar com ela mesma.
+  // COLLATE NOCASE ignora maiúsculas; o trim() fica por conta do JS.
   existeNome(nome, ignorarId = null) {
-    return categorias.some(
-      (c) => normalizar(c.nome) === normalizar(nome) && c.id !== ignorarId
-    );
+    const linha = db
+      .prepare(
+        'SELECT 1 FROM categorias WHERE nome = ? COLLATE NOCASE AND id IS NOT ?',
+      )
+      .get(nome.trim(), ignorarId);
+    return linha !== undefined;
   },
 
   inserir({ nome, descricao }) {
-    const nova = {
-      id: proximoId++,
-      nome: nome.trim(),
-      descricao: descricao ?? null,
-    };
-    categorias.push(nova);
-    return nova;
+    const r = db
+      .prepare('INSERT INTO categorias (nome, descricao) VALUES (?, ?)')
+      .run(nome.trim(), descricao ?? null);
+    return this.buscarPorId(Number(r.lastInsertRowid));
   },
 
   atualizar(id, dados) {
-    const i = categorias.findIndex((c) => c.id === id);
-    if (i === -1) return null;
-    categorias[i] = { ...categorias[i], ...dados, id }; // o id nunca muda
-    return categorias[i];
+    const atual = this.buscarPorId(id);
+    if (!atual) return null;
+    const novo = { ...atual, ...dados };
+    db.prepare('UPDATE categorias SET nome = ?, descricao = ? WHERE id = ?')
+      .run(novo.nome, novo.descricao ?? null, id); // o id nunca muda
+    return this.buscarPorId(id);
   },
 
   remover(id) {
-    const antes = categorias.length;
-    categorias = categorias.filter((c) => c.id !== id);
-    return categorias.length < antes; // true = removeu
+    const r = db.prepare('DELETE FROM categorias WHERE id = ?').run(id);
+    return r.changes > 0; // true = removeu
   },
 };
