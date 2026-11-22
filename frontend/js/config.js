@@ -4,4 +4,4 @@ const LOCAL = ['localhost', '127.0.0.1'].includes(location.hostname);
 
 export const API_URL = LOCAL
   ? 'http://localhost:3000'
-  : 'https://SEU-SERVICO.onrender.com';   // sem barra no final
+  : 'https://progweb-p1-amanda-silva.onrender.com';   // sem barra no final
