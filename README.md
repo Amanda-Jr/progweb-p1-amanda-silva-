@@ -1,12 +1,13 @@
 
+
 # Catálogo de Receitas
 
 Sistema para cadastrar e consultar receitas culinárias organizadas por categoria (sobremesa, massa, salada etc.), pensado para quem quer manter um caderno de receitas digital.
 Projeto 1 da disciplina Programação Web (UEPB, 2026.2).
 
-- **Aplicação:** https://SEU-FRONT.vercel.app
-- **API:** https://SEU-SERVICO.onrender.com
-- **Vídeo de apresentação:** (link)
+- **Aplicação:** https://progweb-p1-amanda-silva-frontend.vercel.app
+- **API:** https://progweb-p1-amanda-silva.onrender.com
+- **Vídeo de apresentação:** (link, quando gravar)
 
 > A API está no plano grátis do Render: o primeiro acesso pode levar cerca de
 > um minuto, e os dados voltam aos de exemplo a cada reinício do serviço.
