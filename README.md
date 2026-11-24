@@ -7,7 +7,7 @@ Projeto 1 da disciplina Programação Web (UEPB, 2026.2).
 
 - **Aplicação:** https://progweb-p1-amanda-silva-frontend.vercel.app
 - **API:** https://progweb-p1-amanda-silva.onrender.com
-- **Vídeo de apresentação:** (link, quando gravar)
+- **Vídeo de apresentação:** https://www.youtube.com/watch?v=hcUZFfJwhoU
 
 > A API está no plano grátis do Render: o primeiro acesso pode levar cerca de
 > um minuto, e os dados voltam aos de exemplo a cada reinício do serviço.
